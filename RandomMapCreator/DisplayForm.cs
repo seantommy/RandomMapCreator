@@ -248,21 +248,14 @@ namespace MapGenerator
             if(newFloor == "one")
             {
                 SwitchMap(1);
-                Console.WriteLine("Showing floor 1");
             }
             else if(newFloor == "two")
             {
                 SwitchMap(2);
-                Console.WriteLine("Showing floor 2");
             }
             else if(newFloor == "three")
             {
                 SwitchMap(3);
-                Console.WriteLine("Showing floor 3");
-            }
-            else
-            {
-                Console.WriteLine(newFloor);
             }
         }
 
@@ -732,12 +725,12 @@ namespace MapGenerator
                 }
                 catch (NullReferenceException e)
                 {
-                    Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    Console.WriteLine(e.Source + "||||" + e.StackTrace);
+                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
+                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid space type 1 at " + currentDoor[0] + "," + currentDoor[1]);
+                    //Console.WriteLine("Invalid space type 1 at " + currentDoor[0] + "," + currentDoor[1]);
                 }
 
                 try
@@ -806,12 +799,12 @@ namespace MapGenerator
                 }
                 catch (NullReferenceException e)
                 {
-                    Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    Console.WriteLine(e.Source + "||||" + e.StackTrace);
+                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
+                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid space type 2 at " + currentDoor[0] + "," + currentDoor[1]);
+                    //Console.WriteLine("Invalid space type 2 at " + currentDoor[0] + "," + currentDoor[1]);
                 }
 
                 try
@@ -880,12 +873,12 @@ namespace MapGenerator
                 }
                 catch(NullReferenceException e)
                 {
-                    Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    Console.WriteLine(e.Source + "||||" + e.StackTrace);
+                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
+                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid space type 3 at " + currentDoor[0] + "," + currentDoor[1]);
+                    //Console.WriteLine("Invalid space type 3 at " + currentDoor[0] + "," + currentDoor[1]);
                 }
 
                 try
@@ -954,12 +947,12 @@ namespace MapGenerator
                 }
                 catch (NullReferenceException e)
                 {
-                    Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    Console.WriteLine(e.Source + "||||" + e.StackTrace);
+                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
+                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
                 }
                 catch
                 {
-                    Console.WriteLine("Invalid space type 4 at " + currentDoor[0] + "," + currentDoor[1]);
+                    //Console.WriteLine("Invalid space type 4 at " + currentDoor[0] + "," + currentDoor[1]);
                 }
 
                 SetCellRed(currentDoor[0], currentDoor[1]);
