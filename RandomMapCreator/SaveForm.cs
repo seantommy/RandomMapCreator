@@ -77,6 +77,7 @@ namespace MapGenerator
                     SaveFog(nameTextbox.Text);
                 }
 
+                Application.OpenForms["DisplayForm"].BringToFront();
                 this.Hide();
                 this.Dispose();
             }

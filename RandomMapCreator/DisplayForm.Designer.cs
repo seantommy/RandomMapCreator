@@ -49,7 +49,6 @@
             this.redTextLabel = new System.Windows.Forms.Label();
             this.floorsDropdown = new System.Windows.Forms.ComboBox();
             this.floorsLabel = new System.Windows.Forms.Label();
-            this.floorSelectBox = new System.Windows.Forms.ComboBox();
             this.displayGrid = new System.Windows.Forms.DataGridView();
             this.fogOfWarLabel = new System.Windows.Forms.Label();
             this.fogOfWarDropdown = new System.Windows.Forms.ComboBox();
@@ -245,21 +244,6 @@
             this.floorsLabel.Size = new System.Drawing.Size(154, 24);
             this.floorsLabel.TabIndex = 21;
             this.floorsLabel.Text = "Number of floors:";
-            // 
-            // floorSelectBox
-            // 
-            this.floorSelectBox.FormattingEnabled = true;
-            this.floorSelectBox.Items.AddRange(new object[] {
-            "one",
-            "two",
-            "three"});
-            this.floorSelectBox.Location = new System.Drawing.Point(1148, 153);
-            this.floorSelectBox.Margin = new System.Windows.Forms.Padding(4);
-            this.floorSelectBox.Name = "floorSelectBox";
-            this.floorSelectBox.Size = new System.Drawing.Size(160, 24);
-            this.floorSelectBox.TabIndex = 24;
-            this.floorSelectBox.Visible = false;
-            this.floorSelectBox.SelectedIndexChanged += new System.EventHandler(this.FloorSelectBox_SelectedIndexChanged);
             // 
             // displayGrid
             // 
@@ -485,7 +469,6 @@
             this.Controls.Add(this.greenLabel);
             this.Controls.Add(this.fogOfWarDropdown);
             this.Controls.Add(this.fogOfWarLabel);
-            this.Controls.Add(this.floorSelectBox);
             this.Controls.Add(this.floorsLabel);
             this.Controls.Add(this.floorsDropdown);
             this.Controls.Add(this.doneButton);
@@ -531,7 +514,6 @@
         private System.Windows.Forms.Label redTextLabel;
         private System.Windows.Forms.ComboBox floorsDropdown;
         private System.Windows.Forms.Label floorsLabel;
-        private System.Windows.Forms.ComboBox floorSelectBox;
         private System.Windows.Forms.DataGridView displayGrid;
         private System.Windows.Forms.Label fogOfWarLabel;
         private System.Windows.Forms.ComboBox fogOfWarDropdown;

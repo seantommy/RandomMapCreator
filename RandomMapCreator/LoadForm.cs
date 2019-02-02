@@ -67,7 +67,8 @@ namespace MapGenerator
             try
             {
                 fileSelected = loadListBox.Text;
-            }catch { }
+            }catch
+            { }
 
             if (fileSelected != "")
             {
@@ -79,6 +80,7 @@ namespace MapGenerator
                     LoadFog(fileSelected);
                 }
 
+                Application.OpenForms["DisplayForm"].BringToFront();
                 DisplayForm.successfulLoad = true;
                 this.Hide();
                 this.Dispose();
@@ -251,7 +253,10 @@ namespace MapGenerator
                         }
                     }
                 }
-            } catch {/*This is fine. It just means there's no fog of war for one of the floors yet.*/ }
+            } catch //This is fine. It just means there's no fog of war for one of the floors yet.
+            {
+                Application.OpenForms["DisplayForm"].BringToFront();
+            }
         }
     }
 }

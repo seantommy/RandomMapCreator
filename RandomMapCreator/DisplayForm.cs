@@ -48,8 +48,8 @@ namespace MapGenerator
 
         private void NumberOfFloorsDropdown_Set(object sender, EventArgs e)
         {
-            ComboBox floorSelectBox = sender as ComboBox;
-            string newFloor = floorSelectBox.Text;
+            ComboBox numberOfFloorsBox = sender as ComboBox;
+            string newFloor = numberOfFloorsBox.Text;
             if (newFloor == "one")
             {
                 numberOfFloors = 1;
@@ -91,101 +91,92 @@ namespace MapGenerator
 
         private void DoneButton_Click(object sender, EventArgs e)
         {
-            bool validInput = true;
-            int height = 0;
-            int width = 0;
+            int width = GetWidthInput();
+            int height = GetHeightInput();
+
+            if (height != 0 && width != 0) //0 means invalid input
+            {
+                Random rng = new Random();
+
+                HideStartingUI();
+                PrepTable();
+                
+                if (numberOfFloors == 0)
+                {
+                    numberOfFloors = rng.Next(1, 4);
+                }
+                floorMaxLabel.Text += numberOfFloors;
+                if (height == 1) //1 means it was left blank
+                {
+                    height = rng.Next(10, 60);
+                }
+
+                if (width == 1) //1 means it was left blank
+                {
+                    width = rng.Next(10, 60);
+                }
+
+                GenerateMaps(height, width);   
+                PrintMapWindow(Program.map1, Program.map1.GetLength(0), Program.map1.GetLength(1));
+            }
+        }
+
+        private int GetHeightInput()
+        {
+            int height = 1; 
 
             if (heightInput.Text != "")
             {
                 try
                 {
                     height = int.Parse(heightInput.Text);
-                    if (height >= 10 && height <= 60)
+                    if (height < 10 || height > 60)
                     {
-                        validInput = true;
-                    }
-                    else
-                    {
-                        workingLabel.Text = "Please input a whole number from 10 to 60.";
+                        height = 0;
+                        workingLabel.Text = "Please input a whole number from 10 to 60 for height and width.";
                         workingLabel.ForeColor = Color.Red;
                         workingLabel.Visible = true;
-                        validInput = false;
                     }
                 }
                 catch
                 {
-                    workingLabel.Text = "Please input a whole number from 10 to 60.";
+                    height = 0;
+                    workingLabel.Text = "Please input a whole number from 10 to 60 for height and width.";
                     workingLabel.ForeColor = Color.Red;
                     workingLabel.Visible = true;
-                    validInput = false;
                 }
             }
 
-            if (validInput == true && widthInput.Text != "")
+            return height;
+        }
+
+        private int GetWidthInput()
+        {
+            int width = 1;
+
+            if (widthInput.Text != "")
             {
                 try
                 {
                     width = int.Parse(widthInput.Text);
-                    if (width >= 10 && width <= 60)
+                    if (width < 10 || width > 60)
                     {
-                        validInput = true;
-                    }
-                    else
-                    {
-                        workingLabel.Text = "Please input a whole number from 10 to 60.";
+                        width = 0;
+                        workingLabel.Text = "Please input a whole number from 10 to 60 for width and height.";
                         workingLabel.ForeColor = Color.Red;
                         workingLabel.Visible = true;
-                        validInput = false;
                     }
                 }
                 catch
                 {
-                    workingLabel.Text = "Please input a whole number from 10 to 60.";
+                    width = 0;
+                    workingLabel.Text = "Please input a whole number from 10 to 60 for width and height.";
                     workingLabel.ForeColor = Color.Red;
                     workingLabel.Visible = true;
-                    validInput = false;
                 }
             }
 
-            if (validInput == true)
-            {
-                Random rng = new Random();
-
-                HideStartingUI();
-                PrepTable();
-
-                if (numberOfFloors == 0)
-                {
-                    numberOfFloors = rng.Next(1, 4);
-                }
-                floorMaxLabel.Text += numberOfFloors;
-
-                if (height == 0)
-                {
-                    height = rng.Next(10, 60);
-                }
-
-                if (width == 0)
-                {
-                    width = rng.Next(10, 60);
-                }
-
-
-                Program.GenerateMap(height, width, this, 1);
-                
-                if (numberOfFloors > 1)
-                {
-                    Program.GenerateMap(height, width, this, 2);
-                }
-                if(numberOfFloors > 2)
-                {
-                    Program.GenerateMap(height, width, this, 3);
-                }
-
-                PrintMapWindow(Program.map1, Program.map1.GetLength(0), Program.map1.GetLength(1));
-
-            }
-
+            return width;
         }
 
         public void HideStartingUI()
@@ -208,14 +199,7 @@ namespace MapGenerator
 
         public void PrepTable()
         {
-            try
-            {
-                if (displayGrid.Rows[5].Cells[6].Style.BackColor == Color.Blue)
-                {
-
-                }
-            }
-            catch
+            if(displayGrid.Rows.Count < 5)
             {
                 for (int x = 0; x < 60; x++)
                 {
@@ -224,6 +208,20 @@ namespace MapGenerator
                     displayGrid.Rows.Add();
                     displayGrid.Rows[x].Height = 11;
                 }
+            }
+        }
+
+        private void GenerateMaps(int height, int width)
+        {
+            Program.GenerateMap(height, width, this, 1);
+
+            if (numberOfFloors > 1)
+            {
+                Program.GenerateMap(height, width, this, 2);
+            }
+            if (numberOfFloors > 2)
+            {
+                Program.GenerateMap(height, width, this, 3);
             }
         }
 
@@ -239,24 +237,6 @@ namespace MapGenerator
             }
             
             ShowMap();
-        }
-
-        private void FloorSelectBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ComboBox floorSelectBox = sender as ComboBox;
-            string newFloor = floorSelectBox.Text;
-            if(newFloor == "one")
-            {
-                SwitchMap(1);
-            }
-            else if(newFloor == "two")
-            {
-                SwitchMap(2);
-            }
-            else if(newFloor == "three")
-            {
-                SwitchMap(3);
-            }
         }
 
         public void SetCellColor(char[,] map, int x, int y)
@@ -368,7 +348,6 @@ namespace MapGenerator
             floorMessage.Visible = true;
             floorMaxLabel.Visible = true;
             saveButton.Visible = true;
-            //floorSelectBox.Visible = true;    for troubleshooting
         }
 
 
@@ -723,14 +702,9 @@ namespace MapGenerator
 
                     }
                 }
-                catch (NullReferenceException e)
-                {
-                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
-                }
                 catch
                 {
-                    //Console.WriteLine("Invalid space type 1 at " + currentDoor[0] + "," + currentDoor[1]);
+                    
                 }
 
                 try
@@ -797,14 +771,9 @@ namespace MapGenerator
                         }
                     }
                 }
-                catch (NullReferenceException e)
-                {
-                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
-                }
                 catch
                 {
-                    //Console.WriteLine("Invalid space type 2 at " + currentDoor[0] + "," + currentDoor[1]);
+
                 }
 
                 try
@@ -871,14 +840,9 @@ namespace MapGenerator
                         }
                     }
                 }
-                catch(NullReferenceException e)
-                {
-                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
-                }
                 catch
                 {
-                    //Console.WriteLine("Invalid space type 3 at " + currentDoor[0] + "," + currentDoor[1]);
+
                 }
 
                 try
@@ -945,14 +909,9 @@ namespace MapGenerator
                         }
                     }
                 }
-                catch (NullReferenceException e)
-                {
-                    //Console.WriteLine("{0}: {1}", e.GetType().Name, e.Message);
-                    //Console.WriteLine(e.Source + "||||" + e.StackTrace);
-                }
                 catch
                 {
-                    //Console.WriteLine("Invalid space type 4 at " + currentDoor[0] + "," + currentDoor[1]);
+
                 }
 
                 SetCellRed(currentDoor[0], currentDoor[1]);
