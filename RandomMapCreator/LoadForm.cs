@@ -152,103 +152,106 @@ namespace MapGenerator
 
         public void LoadFog(string fileName)
         {
-            string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
-
-            string[] fileLines = File.ReadLines(directoryString + "\\floor1Fog").ToArray();
-            string[] lineItems = fileLines[0].Split(',');
-            DisplayForm.floor1Fog = new string[60, 60];
-
-            for (int x = 0; x < 60; x++)
+            try
             {
-                if (x < fileLines.Length)
+                string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
+
+                string[] fileLines = File.ReadLines(directoryString + "\\floor1Fog").ToArray();
+                string[] lineItems = fileLines[0].Split(',');
+                DisplayForm.floor1Fog = new string[60, 60];
+
+                for (int x = 0; x < 60; x++)
                 {
-                    lineItems = fileLines[x].Split(',');
-                    for (int y = 0; y < 60; y++)
+                    if (x < fileLines.Length)
                     {
-                        if (y < lineItems.Length)
+                        lineItems = fileLines[x].Split(',');
+                        for (int y = 0; y < 60; y++)
                         {
-                            DisplayForm.floor1Fog[x, y] = lineItems[y];
+                            if (y < lineItems.Length)
+                            {
+                                DisplayForm.floor1Fog[x, y] = lineItems[y];
+                            }
+                            else
+                            {
+                                DisplayForm.floor1Fog[x, y] = "Control";
+                            }
                         }
-                        else
+                    }
+                    else
+                    {
+                        for (int y = 0; y < 60; y++)
                         {
                             DisplayForm.floor1Fog[x, y] = "Control";
                         }
                     }
                 }
-                else
-                {
-                    for(int y = 0; y < 60; y++)
-                    {
-                        DisplayForm.floor1Fog[x, y] = "Control";
-                    }
-                }
-            }
 
-            if (File.Exists(directoryString + "\\map2"))
-            {
-                fileLines = File.ReadLines(directoryString + "\\floor2Fog").ToArray();
-                lineItems = fileLines[0].Split(',');
-                DisplayForm.floor2Fog = new string[60, 60];
-
-                for (int x = 0; x < 60; x++)
+                if (File.Exists(directoryString + "\\map2"))
                 {
-                    if (x < fileLines.Length)
+                    fileLines = File.ReadLines(directoryString + "\\floor2Fog").ToArray();
+                    lineItems = fileLines[0].Split(',');
+                    DisplayForm.floor2Fog = new string[60, 60];
+
+                    for (int x = 0; x < 60; x++)
                     {
-                        lineItems = fileLines[x].Split(',');
-                        for (int y = 0; y < 60; y++)
+                        if (x < fileLines.Length)
                         {
-                            if (y < lineItems.Length)
+                            lineItems = fileLines[x].Split(',');
+                            for (int y = 0; y < 60; y++)
                             {
-                                DisplayForm.floor2Fog[x, y] = lineItems[y];
+                                if (y < lineItems.Length)
+                                {
+                                    DisplayForm.floor2Fog[x, y] = lineItems[y];
+                                }
+                                else
+                                {
+                                    DisplayForm.floor2Fog[x, y] = "Control";
+                                }
                             }
-                            else
+                        }
+                        else
+                        {
+                            for (int y = 0; y < 60; y++)
                             {
                                 DisplayForm.floor2Fog[x, y] = "Control";
                             }
                         }
                     }
-                    else
-                    {
-                        for (int y = 0; y < 60; y++)
-                        {
-                            DisplayForm.floor2Fog[x, y] = "Control";
-                        }
-                    }
                 }
-            }
 
-            if (File.Exists(directoryString + "\\map3"))
-            {
-                fileLines = File.ReadLines(directoryString + "\\floor3Fog").ToArray();
-                lineItems = fileLines[0].Split(',');
-                DisplayForm.floor3Fog = new string[60, 60];
-
-                for (int x = 0; x < 60; x++)
+                if (File.Exists(directoryString + "\\map3"))
                 {
-                    if (x < fileLines.Length)
+                    fileLines = File.ReadLines(directoryString + "\\floor3Fog").ToArray();
+                    lineItems = fileLines[0].Split(',');
+                    DisplayForm.floor3Fog = new string[60, 60];
+
+                    for (int x = 0; x < 60; x++)
                     {
-                        lineItems = fileLines[x].Split(',');
-                        for (int y = 0; y < 60; y++)
+                        if (x < fileLines.Length)
                         {
-                            if (y < lineItems.Length)
+                            lineItems = fileLines[x].Split(',');
+                            for (int y = 0; y < 60; y++)
                             {
-                                DisplayForm.floor3Fog[x, y] = lineItems[y];
+                                if (y < lineItems.Length)
+                                {
+                                    DisplayForm.floor3Fog[x, y] = lineItems[y];
+                                }
+                                else
+                                {
+                                    DisplayForm.floor3Fog[x, y] = "Control";
+                                }
                             }
-                            else
+                        }
+                        else
+                        {
+                            for (int y = 0; y < 60; y++)
                             {
                                 DisplayForm.floor3Fog[x, y] = "Control";
                             }
                         }
                     }
-                    else
-                    {
-                        for (int y = 0; y < 60; y++)
-                        {
-                            DisplayForm.floor3Fog[x, y] = "Control";
-                        }
-                    }
                 }
-            }
+            } catch { }
         }
     }
 }
