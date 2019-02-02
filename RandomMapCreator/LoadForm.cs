@@ -251,7 +251,7 @@ namespace MapGenerator
                         }
                     }
                 }
-            } catch { }
+            } catch {/*This is fine. It just means there's no fog of war for one of the floors yet.*/ }
         }
     }
 }
