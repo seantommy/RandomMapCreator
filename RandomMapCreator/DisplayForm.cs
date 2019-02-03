@@ -577,9 +577,9 @@ namespace MapGenerator
                 int currentX = currentDoor[0] - 1;
                 int currentY = currentDoor[1];
                 bool verticalWallHit = false;
-                
+
                 int[] leftAndRightAdjust = RevealLeftAndRightAtY(mapToUpdate, currentX, currentY);
-                
+
                 while (!verticalWallHit)
                 {
                     currentX--;
@@ -592,9 +592,9 @@ namespace MapGenerator
                 int currentX = currentDoor[0] + 1;
                 int currentY = currentDoor[1];
                 bool verticalWallHit = false;
-                
+
                 int[] leftAndRightAdjust = RevealLeftAndRightAtY(mapToUpdate, currentX, currentY);
-                
+
                 while (!verticalWallHit)
                 {
                     currentX++;
@@ -607,9 +607,9 @@ namespace MapGenerator
                 int currentX = currentDoor[0];
                 int currentY = currentDoor[1] - 1;
                 bool verticalWallHit = false;
-                
+
                 int[] leftAndRightAdjust = RevealLeftAndRightAtX(mapToUpdate, currentX, currentY);
-                
+
                 while (!verticalWallHit)
                 {
                     currentY--;
@@ -622,9 +622,9 @@ namespace MapGenerator
                 int currentX = currentDoor[0];
                 int currentY = currentDoor[1] + 1;
                 bool verticalWallHit = false;
-                
+
                 int[] leftAndRightAdjust = RevealLeftAndRightAtX(mapToUpdate, currentX, currentY);
-                
+
                 while (!verticalWallHit)
                 {
                     currentY++;
@@ -735,7 +735,7 @@ namespace MapGenerator
             return new int[] { leftAdjust, rightAdjust };
         }
 
-        private bool RevealLayerByY(char[,] mapToUpdate, int currentX, int currentY, int[]leftAndRightAdjust)
+        private bool RevealLayerByY(char[,] mapToUpdate, int currentX, int currentY, int[] leftAndRightAdjust)
         {
             int leftAdjust = leftAndRightAdjust[0];
             int rightAdjust = leftAndRightAdjust[1];
@@ -810,7 +810,7 @@ namespace MapGenerator
                 successfulLoad = false;
             }
         }
-        
+
         private void SaveButton_Click(object sender, EventArgs e)
         {
             SaveFogInternal();

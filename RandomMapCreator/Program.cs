@@ -532,7 +532,7 @@ namespace MapGenerator
         {
             bool validLocation = false;
             int[] stairLocation = new int[2];
-            
+
             if (floor == 2)
             {
                 validLocation = BuildRandomStairs(map1, map2, mapHeight, mapWidth);
@@ -550,7 +550,7 @@ namespace MapGenerator
             else if (floor == 3)
             {
                 validLocation = BuildRandomStairs(map2, map3, mapHeight, mapWidth);
-                
+
                 if (!validLocation)
                 {
                     validLocation = BuildInteriorStairs(map2, map3, mapHeight, mapWidth);

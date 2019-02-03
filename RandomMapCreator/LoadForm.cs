@@ -39,7 +39,7 @@ namespace MapGenerator
         {
             string selectedText = loadListBox.Text;
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + selectedText);
-            
+
             if (selectedText != null && Directory.Exists(directoryString))
             {
                 string[] fileArray = Directory.GetFiles(directoryString);
@@ -64,7 +64,8 @@ namespace MapGenerator
             try
             {
                 fileSelected = loadListBox.Text;
-            }catch { }
+            }
+            catch { }
 
             if (fileSelected != "")
             {
@@ -73,7 +74,7 @@ namespace MapGenerator
 
                 if (DisplayForm.fogOfWarOn && !DisplayForm.fogOfWarHarsh)
                 {
-                    LoadFog(fileSelected);
+                    LoadAllFog(fileSelected);
                 }
 
                 Application.OpenForms["DisplayForm"].BringToFront();
@@ -124,7 +125,7 @@ namespace MapGenerator
                 Program.map1 = new char[fileLines.Length, lineItems.Length];
                 map = Program.map1;
             }
-            else if(mapNumber == 2)
+            else if (mapNumber == 2)
             {
                 Program.map2 = new char[fileLines.Length, lineItems.Length];
                 map = Program.map2;
@@ -134,7 +135,7 @@ namespace MapGenerator
                 Program.map3 = new char[fileLines.Length, lineItems.Length];
                 map = Program.map3;
             }
-            
+
             for (int x = 0; x < fileLines.Length; x++)
             {
                 lineItems = fileLines[x].ToCharArray();
@@ -145,111 +146,75 @@ namespace MapGenerator
             }
         }
 
-        public void LoadFog(string fileName)
+        public void LoadAllFog(string fileName)
         {
             try
             {
                 string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
-
-                string[] fileLines = File.ReadLines(directoryString + "\\floor1Fog").ToArray();
-                string[] lineItems = fileLines[0].Split(',');
-                DisplayForm.floor1Fog = new string[60, 60];
-
-                for (int x = 0; x < 60; x++)
-                {
-                    if (x < fileLines.Length)
-                    {
-                        lineItems = fileLines[x].Split(',');
-                        for (int y = 0; y < 60; y++)
-                        {
-                            if (y < lineItems.Length)
-                            {
-                                DisplayForm.floor1Fog[x, y] = lineItems[y];
-                            }
-                            else
-                            {
-                                DisplayForm.floor1Fog[x, y] = "Control";
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int y = 0; y < 60; y++)
-                        {
-                            DisplayForm.floor1Fog[x, y] = "Control";
-                        }
-                    }
-                }
+                LoadOneFloorFog(directoryString + "\\floor1Fog", 1);
 
                 if (File.Exists(directoryString + "\\map2"))
                 {
-                    fileLines = File.ReadLines(directoryString + "\\floor2Fog").ToArray();
-                    lineItems = fileLines[0].Split(',');
-                    DisplayForm.floor2Fog = new string[60, 60];
-
-                    for (int x = 0; x < 60; x++)
-                    {
-                        if (x < fileLines.Length)
-                        {
-                            lineItems = fileLines[x].Split(',');
-                            for (int y = 0; y < 60; y++)
-                            {
-                                if (y < lineItems.Length)
-                                {
-                                    DisplayForm.floor2Fog[x, y] = lineItems[y];
-                                }
-                                else
-                                {
-                                    DisplayForm.floor2Fog[x, y] = "Control";
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for (int y = 0; y < 60; y++)
-                            {
-                                DisplayForm.floor2Fog[x, y] = "Control";
-                            }
-                        }
-                    }
+                    LoadOneFloorFog(directoryString + "\\floor2Fog", 2);
                 }
-
                 if (File.Exists(directoryString + "\\map3"))
                 {
-                    fileLines = File.ReadLines(directoryString + "\\floor3Fog").ToArray();
-                    lineItems = fileLines[0].Split(',');
-                    DisplayForm.floor3Fog = new string[60, 60];
-
-                    for (int x = 0; x < 60; x++)
-                    {
-                        if (x < fileLines.Length)
-                        {
-                            lineItems = fileLines[x].Split(',');
-                            for (int y = 0; y < 60; y++)
-                            {
-                                if (y < lineItems.Length)
-                                {
-                                    DisplayForm.floor3Fog[x, y] = lineItems[y];
-                                }
-                                else
-                                {
-                                    DisplayForm.floor3Fog[x, y] = "Control";
-                                }
-                            }
-                        }
-                        else
-                        {
-                            for (int y = 0; y < 60; y++)
-                            {
-                                DisplayForm.floor3Fog[x, y] = "Control";
-                            }
-                        }
-                    }
+                    LoadOneFloorFog(directoryString + "\\floor3Fog", 3);
                 }
-            } catch //This is fine. It just means there's no fog of war for one of the floors yet.
+            }
+            catch //This is fine. It just means there's no fog of war for one of the floors yet.
             {
                 Application.OpenForms["DisplayForm"].BringToFront();
             }
         }
+
+        private void LoadOneFloorFog(string directoryString, int mapNumber)
+        {
+            string[] fileLines = File.ReadLines(directoryString).ToArray();
+            string[] lineItems = fileLines[0].Split(',');
+
+            for (int x = 0; x < 60; x++)
+            {
+                if (x < fileLines.Length)
+                {
+                    lineItems = fileLines[x].Split(',');
+                    for (int y = 0; y < 60; y++)
+                    {
+                        if (y < lineItems.Length)
+                        {
+                            SetFogAtCell(x, y, lineItems[y], mapNumber);
+                        }
+                        else
+                        {
+                            SetFogAtCell(x, y, "Control", mapNumber);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int y = 0; y < 60; y++)
+                    {
+                        SetFogAtCell(x, y, "Control", mapNumber);
+                    }
+                }
+            }
+        }
+
+        private void SetFogAtCell(int x, int y, string fogValue, int mapNumber)
+        {
+            if (mapNumber == 1)
+            {
+                DisplayForm.floor1Fog[x, y] = fogValue;
+            }
+            else if (mapNumber == 2)
+            {
+                DisplayForm.floor2Fog[x, y] = fogValue;
+            }
+            else
+            {
+                DisplayForm.floor3Fog[x, y] = fogValue;
+            }
+        }
     }
 }
+

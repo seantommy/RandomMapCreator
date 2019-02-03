@@ -31,9 +31,10 @@ namespace MapGenerator
                 {
                     saveListBox.Items.Add(saveNames[x].Remove(0, directoryString.Length));
                 }
-            }catch
+            }
+            catch
             {
-
+                //This is fine. It means there are no saves.
             }
         }
 
@@ -58,21 +59,21 @@ namespace MapGenerator
                         File.Delete(fileArray[x]);
                     }
                 }
-                catch{ }
+                catch { }
 
                 Directory.Delete(directoryString);
                 saveListBox.Items.Remove(nameTextbox.Text);
             }
         }
-        
+
         private void SaveButtonClicked(object sender, EventArgs e)
         {
-            if(nameTextbox.Text != null)
+            if (nameTextbox.Text != null)
             {
                 SaveInfo(nameTextbox.Text);
-                SaveMaps(nameTextbox.Text);
-                
-                if(DisplayForm.fogOfWarOn && !DisplayForm.fogOfWarHarsh)
+                SaveAllMaps(nameTextbox.Text);
+
+                if (DisplayForm.fogOfWarOn && !DisplayForm.fogOfWarHarsh)
                 {
                     SaveFog(nameTextbox.Text);
                 }
@@ -82,7 +83,7 @@ namespace MapGenerator
                 this.Dispose();
             }
         }
-        
+
         public void SaveInfo(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
@@ -99,104 +100,99 @@ namespace MapGenerator
             File.WriteAllText((directoryString + "\\info"), fileText);
         }
 
-        public void SaveMaps(string fileName)
+        public void SaveAllMaps(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
-            string fileText = "";
-
-            for (int x = 0; x < Program.map1.GetLength(0); x++)
-            {
-                for (int y = 0; y < Program.map1.GetLength(1); y++)
-                {
-                    fileText += Program.map1[x,y];
-                }
-                fileText += "\n";
-            }
-            File.WriteAllText((directoryString + "\\map1"), fileText);
+            SaveOneMap(directoryString + "\\map1", 1);
 
             if (DisplayForm.numberOfFloors > 1)
             {
-                fileText = "";
-                for (int x = 0; x < Program.map2.GetLength(0); x++)
-                {
-                    for (int y = 0; y < Program.map2.GetLength(1); y++)
-                    {
-                        fileText += Program.map2[x, y];
-                    }
-                    fileText += "\n";
-                }
-                File.WriteAllText((directoryString + "\\map2"), fileText);
+                SaveOneMap(directoryString + "\\map2", 2);
             }
-
             if (DisplayForm.numberOfFloors > 2)
             {
-                fileText = "";
-                for (int x = 0; x < Program.map3.GetLength(0); x++)
-                {
-                    for (int y = 0; y < Program.map3.GetLength(1); y++)
-                    {
-                        fileText += Program.map3[x, y];
-                    }
-                    fileText += "\n";
-                }
-                File.WriteAllText((directoryString + "\\map3"), fileText);
+                SaveOneMap(directoryString + "\\map3", 3);
             }
+        }
+
+        private void SaveOneMap(string directoryString, int mapNumber)
+        {
+            string fileText = "";
+            char[,] map;
+            if (mapNumber == 1)
+            {
+                map = Program.map1;
+            }
+            else if (mapNumber == 2)
+            {
+                map = Program.map2;
+            }
+            else
+            {
+                map = Program.map3;
+            }
+
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                for (int y = 0; y < map.GetLength(1); y++)
+                {
+                    fileText += map[x, y];
+                }
+                fileText += "\n";
+            }
+            File.WriteAllText(directoryString, fileText);
         }
 
         public void SaveFog(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
-            string fileText = "";
 
-            for (int x = 0; x < Program.map1.GetLength(0); x++)
+            SaveOneFloorFog(directoryString + "\\floor1Fog", 1);
+
+            if (DisplayForm.numberOfFloors > 1 && DisplayForm.floor2Fog[0, 0] != null)
             {
-                for (int y = 0; y < Program.map1.GetLength(1); y++)
+                SaveOneFloorFog(directoryString + "\\floor2Fog", 2);
+            }
+            if (DisplayForm.numberOfFloors > 2 && DisplayForm.floor3Fog[0, 0] != null)
+            {
+                SaveOneFloorFog(directoryString + "\\floor3Fog", 3);
+            }
+        }
+
+        private void SaveOneFloorFog(string directoryString, int mapNumber)
+        {
+            string fileText = "";
+            char[,] map;
+            string[,] fogArray;
+            if (mapNumber == 1)
+            {
+                map = Program.map1;
+                fogArray = DisplayForm.floor1Fog;
+            }
+            else if (mapNumber == 2)
+            {
+                map = Program.map2;
+                fogArray = DisplayForm.floor2Fog;
+            }
+            else
+            {
+                map = Program.map3;
+                fogArray = DisplayForm.floor3Fog;
+            }
+
+            for (int x = 0; x < map.GetLength(0); x++)
+            {
+                for (int y = 0; y < map.GetLength(1); y++)
                 {
-                    fileText += DisplayForm.floor1Fog[x, y];
-                    if (y < Program.map1.GetLength(1) - 1)
+                    fileText += fogArray[x, y];
+                    if (y < map.GetLength(1) - 1)
                     {
                         fileText += ",";
                     }
                 }
                 fileText += "\n";
             }
-            File.WriteAllText((directoryString + "\\floor1Fog"), fileText);
-
-            if (DisplayForm.numberOfFloors > 1 && DisplayForm.floor2Fog[0,0] != null)
-            {
-                fileText = "";
-                for (int x = 0; x < Program.map2.GetLength(0); x++)
-                {
-                    for (int y = 0; y < Program.map2.GetLength(1); y++)
-                    {
-                        fileText += DisplayForm.floor2Fog[x, y];
-                        if (y < Program.map2.GetLength(1) - 1)
-                        {
-                            fileText += ",";
-                        }
-                    }
-                    fileText += "\n";
-                }
-                File.WriteAllText((directoryString + "\\floor2Fog"), fileText);
-            }
-
-            if (DisplayForm.numberOfFloors > 2 && DisplayForm.floor3Fog[0,0] != null)
-            {
-                fileText = "";
-                for (int x = 0; x < Program.map3.GetLength(0); x++)
-                {
-                    for (int y = 0; y < Program.map3.GetLength(1); y++)
-                    {
-                        fileText += DisplayForm.floor3Fog[x, y];
-                        if (y < Program.map3.GetLength(1) - 1)
-                        {
-                            fileText += ",";
-                        }
-                    }
-                    fileText += "\n";
-                }
-                File.WriteAllText((directoryString + "\\floor3Fog"), fileText);
-            }
+            File.WriteAllText(directoryString, fileText);
         }
     }
 }
