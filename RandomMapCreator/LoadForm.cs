@@ -118,21 +118,21 @@ namespace MapGenerator
         {
             string[] fileLines = File.ReadLines(directoryString).ToArray();
             char[] lineItems = fileLines[0].ToCharArray();
-            char[,] map;
+            Map map;
 
             if (mapNumber == 1)
             {
-                Program.map1 = new char[fileLines.Length, lineItems.Length];
+                Program.map1 = new Map(fileLines.Length, lineItems.Length);
                 map = Program.map1;
             }
             else if (mapNumber == 2)
             {
-                Program.map2 = new char[fileLines.Length, lineItems.Length];
+                Program.map2 = new Map(fileLines.Length, lineItems.Length);
                 map = Program.map2;
             }
             else
             {
-                Program.map3 = new char[fileLines.Length, lineItems.Length];
+                Program.map3 = new Map(fileLines.Length, lineItems.Length);
                 map = Program.map3;
             }
 
@@ -141,7 +141,7 @@ namespace MapGenerator
                 lineItems = fileLines[x].ToCharArray();
                 for (int y = 0; y < lineItems.Length; y++)
                 {
-                    map[x, y] = lineItems[y];
+                    map.Contents[x, y] = lineItems[y];
                 }
             }
         }

@@ -118,7 +118,7 @@ namespace MapGenerator
         private void SaveOneMap(string directoryString, int mapNumber)
         {
             string fileText = "";
-            char[,] map;
+            Map map;
             if (mapNumber == 1)
             {
                 map = Program.map1;
@@ -132,11 +132,11 @@ namespace MapGenerator
                 map = Program.map3;
             }
 
-            for (int x = 0; x < map.GetLength(0); x++)
+            for (int x = 0; x < map.Height; x++)
             {
-                for (int y = 0; y < map.GetLength(1); y++)
+                for (int y = 0; y < map.Width; y++)
                 {
-                    fileText += map[x, y];
+                    fileText += map.Contents[x, y];
                 }
                 fileText += "\n";
             }
@@ -162,7 +162,7 @@ namespace MapGenerator
         private void SaveOneFloorFog(string directoryString, int mapNumber)
         {
             string fileText = "";
-            char[,] map;
+            Map map;
             string[,] fogArray;
             if (mapNumber == 1)
             {
@@ -180,12 +180,12 @@ namespace MapGenerator
                 fogArray = DisplayForm.floor3Fog;
             }
 
-            for (int x = 0; x < map.GetLength(0); x++)
+            for (int x = 0; x < map.Height; x++)
             {
-                for (int y = 0; y < map.GetLength(1); y++)
+                for (int y = 0; y < map.Width; y++)
                 {
                     fileText += fogArray[x, y];
-                    if (y < map.GetLength(1) - 1)
+                    if (y < map.Width - 1)
                     {
                         fileText += ",";
                     }

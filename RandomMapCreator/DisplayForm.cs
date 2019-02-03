@@ -119,7 +119,7 @@ namespace MapGenerator
                 }
 
                 GenerateMaps(height, width);
-                PrintMapWindow(Program.map1, Program.map1.GetLength(0), Program.map1.GetLength(1));
+                PrintMapWindow(Program.map1);
             }
         }
 
@@ -227,11 +227,11 @@ namespace MapGenerator
             }
         }
 
-        public void PrintMapWindow(char[,] map, int height, int width)
+        public void PrintMapWindow(Map map)
         {
-            for (int x = 0; x < height; x++)
+            for (int x = 0; x < map.Height; x++)
             {
-                for (int y = 0; y < width; y++)
+                for (int y = 0; y < map.Width; y++)
                 {
                     SetCellColor(map, x, y);
                 }
@@ -240,9 +240,9 @@ namespace MapGenerator
             ShowMap();
         }
 
-        public void SetCellColor(char[,] map, int x, int y)
+        public void SetCellColor(Map map, int x, int y)
         {
-            switch (map[x, y])
+            switch (map.Contents[x, y])
             {
                 case 'X':
                     SetCellBlack(x, y);
@@ -358,18 +358,18 @@ namespace MapGenerator
 
             if (floor == 1)
             {
-                PrintMapWindow(Program.map1, Program.map1.GetLength(0), Program.map1.GetLength(1));
+                PrintMapWindow(Program.map1);
                 SetCellColor(Program.map1, currentDoor[0], currentDoor[1]);
             }
             else if (floor == 2)
             {
-                PrintMapWindow(Program.map2, Program.map2.GetLength(0), Program.map2.GetLength(1));
+                PrintMapWindow(Program.map2);
                 SetCellColor(Program.map2, currentDoor[0], currentDoor[1]);
             }
             else if (floor == 3)
             {
 
-                PrintMapWindow(Program.map3, Program.map3.GetLength(0), Program.map3.GetLength(1));
+                PrintMapWindow(Program.map3);
                 SetCellColor(Program.map3, currentDoor[0], currentDoor[1]);
             }
             floorMessage.Text = "Floor " + floor;
@@ -396,9 +396,9 @@ namespace MapGenerator
         {
             if (currentFloor == 1)
             {
-                for (int x = 0; x < Program.map1.GetLength(0); x++)
+                for (int x = 0; x < Program.map1.Height; x++)
                 {
-                    for (int y = 0; y < Program.map1.GetLength(1); y++)
+                    for (int y = 0; y < Program.map1.Width; y++)
                     {
                         floor1Fog[x, y] = displayGrid.Rows[x].Cells[y].Style.BackColor.ToString().Substring(7).TrimEnd(']');
                     }
@@ -406,9 +406,9 @@ namespace MapGenerator
             }
             else if (currentFloor == 2)
             {
-                for (int x = 0; x < Program.map2.GetLength(0); x++)
+                for (int x = 0; x < Program.map2.Height; x++)
                 {
-                    for (int y = 0; y < Program.map2.GetLength(1); y++)
+                    for (int y = 0; y < Program.map2.Width; y++)
                     {
                         floor2Fog[x, y] = displayGrid.Rows[x].Cells[y].Style.BackColor.ToString().Substring(7).TrimEnd(']');
                     }
@@ -416,9 +416,9 @@ namespace MapGenerator
             }
             else
             {
-                for (int x = 0; x < Program.map3.GetLength(0); x++)
+                for (int x = 0; x < Program.map3.Height; x++)
                 {
-                    for (int y = 0; y < Program.map3.GetLength(1); y++)
+                    for (int y = 0; y < Program.map3.Width; y++)
                     {
                         floor3Fog[x, y] = displayGrid.Rows[x].Cells[y].Style.BackColor.ToString().Substring(7).TrimEnd(']');
                     }
@@ -442,7 +442,7 @@ namespace MapGenerator
         {
             int previousFloor = currentFloor;
             currentFloor = newFloor;
-            char[,] map;
+            Map map;
 
             if (currentFloor == 1)
             {
@@ -457,17 +457,17 @@ namespace MapGenerator
                 map = Program.map3;
             }
 
-            for (int x = 0; x < map.GetLength(0); x++)
+            for (int x = 0; x < map.Height; x++)
             {
-                for (int y = 0; y < map.GetLength(1); y++)
+                for (int y = 0; y < map.Width; y++)
                 {
-                    if (currentFloor > previousFloor && map[x, y] == 'L')
+                    if (currentFloor > previousFloor && map.Contents[x, y] == 'L')
                     {
                         currentDoor[0] = x;
                         currentDoor[1] = y;
                         return;
                     }
-                    else if (currentFloor < previousFloor && map[x, y] == 'H')
+                    else if (currentFloor < previousFloor && map.Contents[x, y] == 'H')
                     {
                         currentDoor[0] = x;
                         currentDoor[1] = y;
@@ -479,7 +479,7 @@ namespace MapGenerator
 
         public void LoadFogInternal()
         {
-            char[,] map;
+            Map map;
             string[,] fog;
 
             ClearDisplayGrid();
@@ -500,9 +500,9 @@ namespace MapGenerator
                 fog = floor3Fog;
             }
 
-            for (int x = 0; x < map.GetLength(0); x++)
+            for (int x = 0; x < map.Height; x++)
             {
-                for (int y = 0; y < map.GetLength(1); y++)
+                for (int y = 0; y < map.Width; y++)
                 {
                     displayGrid.Rows[x].Cells[y].Style.BackColor = Color.FromName(fog[x, y]);
                 }
@@ -534,7 +534,7 @@ namespace MapGenerator
             previousDoor[0] = currentDoor[0];
             previousDoor[1] = currentDoor[1];
 
-            if (currentFloor != 1 || Program.map1[newDoorRow, newDoorColumn] != 'D')
+            if (currentFloor != 1 || Program.map1.Contents[newDoorRow, newDoorColumn] != 'D')
             {
                 SetCurrentDoor(newDoorRow, newDoorColumn);
                 if (displayGrid.Rows[previousDoor[0]].Cells[previousDoor[1]].Style.BackColor == Color.Red)
@@ -547,7 +547,7 @@ namespace MapGenerator
 
         public void UpdateFogOfWar()
         {
-            char[,] mapToUpdate;
+            Map mapToUpdate;
 
             if (!fogOfWarOn)
             {
@@ -635,13 +635,13 @@ namespace MapGenerator
             SetCellRed(currentDoor[0], currentDoor[1]);
         }
 
-        private bool IsSpaceAccessible(char[,] mapToUpdate, int x, int y)
+        private bool IsSpaceAccessible(Map mapToUpdate, int x, int y)
         {
-            if (x < 0 || x >= mapToUpdate.GetLength(0) || y < 0 || y >= mapToUpdate.GetLength(1))
+            if (x < 0 || x >= mapToUpdate.Height || y < 0 || y >= mapToUpdate.Width)
             {
                 return false;
             }
-            if (mapToUpdate[x, y] == ' ' || mapToUpdate[x, y] == 'H' || mapToUpdate[x, y] == 'L')
+            if (mapToUpdate.Contents[x, y] == ' ' || mapToUpdate.Contents[x, y] == 'H' || mapToUpdate.Contents[x, y] == 'L')
             {
                 return true;
             }
@@ -651,7 +651,7 @@ namespace MapGenerator
             }
         }
 
-        private int[] RevealLeftAndRightAtY(char[,] mapToUpdate, int currentX, int currentY)
+        private int[] RevealLeftAndRightAtY(Map mapToUpdate, int currentX, int currentY)
         {
             bool leftWallHit = false;
             bool rightWallHit = false;
@@ -662,7 +662,7 @@ namespace MapGenerator
             {
                 SetCellColor(mapToUpdate, currentX, currentY);
                 leftAdjust++;
-                if (mapToUpdate[currentX, currentY - leftAdjust] != ' ' && mapToUpdate[currentX, currentY - leftAdjust] != 'H' && mapToUpdate[currentX, currentY - leftAdjust] != 'L')
+                if (mapToUpdate.Contents[currentX, currentY - leftAdjust] != ' ' && mapToUpdate.Contents[currentX, currentY - leftAdjust] != 'H' && mapToUpdate.Contents[currentX, currentY - leftAdjust] != 'L')
                 {
                     SetCellColor(mapToUpdate, currentX, currentY - leftAdjust);
                     leftWallHit = true;
@@ -673,7 +673,7 @@ namespace MapGenerator
             {
                 SetCellColor(mapToUpdate, currentX, currentY + rightAdjust);
                 rightAdjust++;
-                if (mapToUpdate[currentX, currentY + rightAdjust] != ' ' && mapToUpdate[currentX, currentY + rightAdjust] != 'H' && mapToUpdate[currentX, currentY + rightAdjust] != 'L')
+                if (mapToUpdate.Contents[currentX, currentY + rightAdjust] != ' ' && mapToUpdate.Contents[currentX, currentY + rightAdjust] != 'H' && mapToUpdate.Contents[currentX, currentY + rightAdjust] != 'L')
                 {
                     SetCellColor(mapToUpdate, currentX, currentY + rightAdjust);
                     rightWallHit = true;
@@ -693,7 +693,7 @@ namespace MapGenerator
             return new int[] { leftAdjust, rightAdjust };
         }
 
-        private int[] RevealLeftAndRightAtX(char[,] mapToUpdate, int currentX, int currentY)
+        private int[] RevealLeftAndRightAtX(Map mapToUpdate, int currentX, int currentY)
         {
             bool leftWallHit = false;
             bool rightWallHit = false;
@@ -704,7 +704,7 @@ namespace MapGenerator
             {
                 SetCellColor(mapToUpdate, currentX, currentY);
                 leftAdjust++;
-                if (mapToUpdate[currentX - leftAdjust, currentY] != ' ' && mapToUpdate[currentX - leftAdjust, currentY] != 'H' && mapToUpdate[currentX - leftAdjust, currentY] != 'L')
+                if (mapToUpdate.Contents[currentX - leftAdjust, currentY] != ' ' && mapToUpdate.Contents[currentX - leftAdjust, currentY] != 'H' && mapToUpdate.Contents[currentX - leftAdjust, currentY] != 'L')
                 {
                     SetCellColor(mapToUpdate, currentX - leftAdjust, currentY);
                     leftWallHit = true;
@@ -715,7 +715,7 @@ namespace MapGenerator
             {
                 SetCellColor(mapToUpdate, currentX + rightAdjust, currentY);
                 rightAdjust++;
-                if (mapToUpdate[currentX + rightAdjust, currentY] != ' ' && mapToUpdate[currentX + rightAdjust, currentY] != 'H' && mapToUpdate[currentX + rightAdjust, currentY] != 'L')
+                if (mapToUpdate.Contents[currentX + rightAdjust, currentY] != ' ' && mapToUpdate.Contents[currentX + rightAdjust, currentY] != 'H' && mapToUpdate.Contents[currentX + rightAdjust, currentY] != 'L')
                 {
                     SetCellColor(mapToUpdate, currentX + rightAdjust, currentY);
                     rightWallHit = true;
@@ -735,7 +735,7 @@ namespace MapGenerator
             return new int[] { leftAdjust, rightAdjust };
         }
 
-        private bool RevealLayerByY(char[,] mapToUpdate, int currentX, int currentY, int[] leftAndRightAdjust)
+        private bool RevealLayerByY(Map mapToUpdate, int currentX, int currentY, int[] leftAndRightAdjust)
         {
             int leftAdjust = leftAndRightAdjust[0];
             int rightAdjust = leftAndRightAdjust[1];
@@ -750,7 +750,7 @@ namespace MapGenerator
                 SetCellColor(mapToUpdate, currentX, currentY + j);
             }
 
-            if (mapToUpdate[currentX, currentY] != ' ' && mapToUpdate[currentX, currentY] != 'H' && mapToUpdate[currentX, currentY] != 'L')
+            if (mapToUpdate.Contents[currentX, currentY] != ' ' && mapToUpdate.Contents[currentX, currentY] != 'H' && mapToUpdate.Contents[currentX, currentY] != 'L')
             {
                 return true;
             }
@@ -760,7 +760,7 @@ namespace MapGenerator
             }
         }
 
-        private bool RevealLayerByX(char[,] mapToUpdate, int currentX, int currentY, int[] leftAndRightAdjust)
+        private bool RevealLayerByX(Map mapToUpdate, int currentX, int currentY, int[] leftAndRightAdjust)
         {
             int leftAdjust = leftAndRightAdjust[0];
             int rightAdjust = leftAndRightAdjust[1];
@@ -775,7 +775,7 @@ namespace MapGenerator
                 SetCellColor(mapToUpdate, currentX + j, currentY);
             }
 
-            if (mapToUpdate[currentX, currentY] != ' ' && mapToUpdate[currentX, currentY] != 'H' && mapToUpdate[currentX, currentY] != 'L')
+            if (mapToUpdate.Contents[currentX, currentY] != ' ' && mapToUpdate.Contents[currentX, currentY] != 'H' && mapToUpdate.Contents[currentX, currentY] != 'L')
             {
                 return true;
             }
