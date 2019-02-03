@@ -19,7 +19,7 @@ namespace MapGenerator
             DisplaySaves();
         }
 
-        public void DisplaySaves()
+        private void DisplaySaves()
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\");
             Directory.CreateDirectory(directoryString);
@@ -84,7 +84,7 @@ namespace MapGenerator
             }
         }
 
-        public void LoadInfo(string fileName)
+        private void LoadInfo(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
             string[] fileTextItems = File.ReadAllText(directoryString + "\\info").Split(',');
@@ -97,7 +97,7 @@ namespace MapGenerator
             DisplayForm.currentDoor[1] = int.Parse(fileTextItems[5]);
         }
 
-        public void LoadAllMaps(string fileName)
+        private void LoadAllMaps(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
 
@@ -146,18 +146,18 @@ namespace MapGenerator
             }
         }
 
-        public void LoadAllFog(string fileName)
+        private void LoadAllFog(string fileName)
         {
             try
             {
                 string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
                 LoadOneFloorFog(directoryString + "\\floor1Fog", 1);
 
-                if (File.Exists(directoryString + "\\map2"))
+                if (File.Exists(directoryString + "\\floor2Fog"))
                 {
                     LoadOneFloorFog(directoryString + "\\floor2Fog", 2);
                 }
-                if (File.Exists(directoryString + "\\map3"))
+                if (File.Exists(directoryString + "\\floor3Fog"))
                 {
                     LoadOneFloorFog(directoryString + "\\floor3Fog", 3);
                 }

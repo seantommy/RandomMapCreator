@@ -181,7 +181,7 @@ namespace MapGenerator
             return width;
         }
 
-        public void HideStartingUI()
+        private void HideStartingUI()
         {
             label1.Visible = false;
             label2.Visible = false;
@@ -199,7 +199,7 @@ namespace MapGenerator
             workingLabel.Visible = false;
         }
 
-        public void PrepTable()
+        private void PrepTable()
         {
             if (displayGrid.Rows.Count < 5)
             {
@@ -227,7 +227,7 @@ namespace MapGenerator
             }
         }
 
-        public void PrintMapWindow(Map map)
+        private void PrintMapWindow(Map map)
         {
             for (int x = 0; x < map.Height; x++)
             {
@@ -240,7 +240,7 @@ namespace MapGenerator
             ShowMap();
         }
 
-        public void SetCellColor(Map map, int x, int y)
+        private void SetCellColor(Map map, int x, int y)
         {
             switch (map.Contents[x, y])
             {
@@ -268,44 +268,44 @@ namespace MapGenerator
             }
         }
 
-        public void SetCurrentDoor(int x, int y)
+        private void SetCurrentDoor(int x, int y)
         {
             currentDoor[0] = x;
             currentDoor[1] = y;
             SetCellRed(x, y);
         }
 
-        public void SetCellRed(int x, int y)
+        private void SetCellRed(int x, int y)
         {
             displayGrid.Rows[x].Cells[y].Style.BackColor = Color.Red;
             displayGrid.Rows[x].Cells[y].Style.SelectionBackColor = Color.Red;
         }
 
-        public void SetCellBlue(int y, int x)
+        private void SetCellBlue(int y, int x)
         {
             displayGrid.Rows[y].Cells[x].Style.BackColor = Color.Blue;
             displayGrid.Rows[y].Cells[x].Style.SelectionBackColor = Color.Blue;
         }
 
-        public void SetCellGreen(int y, int x)
+        private void SetCellGreen(int y, int x)
         {
             displayGrid.Rows[y].Cells[x].Style.BackColor = Color.Green;
             displayGrid.Rows[y].Cells[x].Style.SelectionBackColor = Color.Green;
         }
 
-        public void SetCellPurple(int y, int x)
+        private void SetCellPurple(int y, int x)
         {
             displayGrid.Rows[y].Cells[x].Style.BackColor = Color.Purple;
             displayGrid.Rows[y].Cells[x].Style.SelectionBackColor = Color.Purple;
         }
 
-        public void SetCellBlack(int y, int x)
+        private void SetCellBlack(int y, int x)
         {
             displayGrid.Rows[y].Cells[x].Style.BackColor = Color.Black;
             displayGrid.Rows[y].Cells[x].Style.SelectionBackColor = Color.Black;
         }
 
-        public void ShowMap()
+        private void ShowMap()
         {
             ShowSecondaryUI();
 
@@ -327,7 +327,7 @@ namespace MapGenerator
 
         }
 
-        public void ShowSecondaryUI()
+        private void ShowSecondaryUI()
         {
             workingLabel.Visible = false;
             legendLabel.Visible = true;
@@ -346,7 +346,7 @@ namespace MapGenerator
             saveButton.Visible = true;
         }
 
-        public void SwitchMap(int floor)
+        private void SwitchMap(int floor)
         {
             if (fogOfWarOn == true && fogOfWarHarsh == false)
             {
@@ -392,7 +392,7 @@ namespace MapGenerator
             }
         }
 
-        public void SaveFogInternal()
+        private void SaveFogInternal()
         {
             if (currentFloor == 1)
             {
@@ -477,7 +477,7 @@ namespace MapGenerator
             }
         }
 
-        public void LoadFogInternal()
+        private void LoadFogInternal()
         {
             Map map;
             string[,] fog;
@@ -505,6 +505,7 @@ namespace MapGenerator
                 for (int y = 0; y < map.Width; y++)
                 {
                     displayGrid.Rows[x].Cells[y].Style.BackColor = Color.FromName(fog[x, y]);
+                    displayGrid.Rows[x].Cells[y].Style.SelectionBackColor = Color.FromName(fog[x, y]);
                 }
             }
         }
@@ -545,7 +546,7 @@ namespace MapGenerator
             }
         }
 
-        public void UpdateFogOfWar()
+        private void UpdateFogOfWar()
         {
             Map mapToUpdate;
 

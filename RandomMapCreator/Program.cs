@@ -55,7 +55,7 @@ namespace MapGenerator
             CreateStairs(floor, map);
         }
 
-        public static void FillEmpty(Map map)
+        private static void FillEmpty(Map map)
         {
             for (int x = 1; x < map.Height - 1; x++)
             {
@@ -66,7 +66,7 @@ namespace MapGenerator
             }
         }
 
-        public static void CreateBorder(Map map)
+        private static void CreateBorder(Map map)
         {
             for (int x = 0; x < map.Width; x++)
             {
@@ -81,7 +81,7 @@ namespace MapGenerator
             }
         }
 
-        public static bool CreateRoom(Map map)
+        private static bool CreateRoom(Map map)
         {
             int[] roomStart = new int[2] { 1, 1 };
             roomStart = FindRoomStart(map, roomStart);
@@ -97,7 +97,7 @@ namespace MapGenerator
             }
         }
 
-        public static int[] FindRoomStart(Map map, int[] crawler)
+        private static int[] FindRoomStart(Map map, int[] crawler)
         {
             if (map.Contents[crawler[0], crawler[1]] == 'O')
             {
@@ -125,7 +125,7 @@ namespace MapGenerator
             return crawler;
         }
 
-        public static void BuildRoom(Map map, int[] roomStart)
+        private static void BuildRoom(Map map, int[] roomStart)
         {
             int width = 1;
             int height = 1;
@@ -250,7 +250,7 @@ namespace MapGenerator
             return height;
         }
 
-        public static void AddInteriorDoor(Map map, int[] roomStart, int roomHeight, int roomWidth)
+        private static void AddInteriorDoor(Map map, int[] roomStart, int roomHeight, int roomWidth)
         {
             int doorFixedPosition = 0;
 
@@ -290,7 +290,7 @@ namespace MapGenerator
 
         }
 
-        public static bool BuildEastDoor(Map map, int roomStart, int roomHeight, int doorFixedPosition)
+        private static bool BuildEastDoor(Map map, int roomStart, int roomHeight, int doorFixedPosition)
         {
             int doorEastPosition = rng.Next(roomStart, roomStart + roomHeight - 1); //-1 to avoid door in corner
             bool validDoor = CheckEastDoorValidity(map, doorEastPosition, doorFixedPosition);
@@ -327,7 +327,7 @@ namespace MapGenerator
             return validDoor;
         }
 
-        public static bool BuildSouthDoor(Map map, int roomStart, int doorFixedPosition, int roomWidth)
+        private static bool BuildSouthDoor(Map map, int roomStart, int doorFixedPosition, int roomWidth)
         {
             int doorSouthPosition = rng.Next(roomStart, roomStart + roomWidth - 1); //-1 to avoid door in corner
 
@@ -367,7 +367,7 @@ namespace MapGenerator
             return validDoor;
         }
 
-        public static bool BuildWestDoor(Map map, int roomStart, int roomHeight, int doorFixedPosition)
+        private static bool BuildWestDoor(Map map, int roomStart, int roomHeight, int doorFixedPosition)
         {
             int doorWestPosition = rng.Next(roomStart, roomStart + roomHeight - 1); //-1 to avoid door in corner
             bool validDoor = CheckWestDoorValidity(map, doorWestPosition, doorFixedPosition);
@@ -404,7 +404,7 @@ namespace MapGenerator
             return validDoor;
         }
 
-        public static bool BuildNorthDoor(Map map, int roomStart, int doorFixedPosition, int roomWidth)
+        private static bool BuildNorthDoor(Map map, int roomStart, int doorFixedPosition, int roomWidth)
         {
             int doorNorthPosition = rng.Next(roomStart, roomStart + roomWidth - 1); //-1 to avoid door in corner
 
@@ -443,7 +443,7 @@ namespace MapGenerator
             return validDoor;
         }
 
-        public static bool CheckEastDoorValidity(Map map, int doorPosition, int wallPosition)
+        private static bool CheckEastDoorValidity(Map map, int doorPosition, int wallPosition)
         {
             bool isValid = false;
 
@@ -459,7 +459,7 @@ namespace MapGenerator
             return isValid;
         }
 
-        public static bool CheckSouthDoorValidity(Map map, int doorPosition, int wallPosition)
+        private static bool CheckSouthDoorValidity(Map map, int doorPosition, int wallPosition)
         {
             bool isValid = false;
 
@@ -475,7 +475,7 @@ namespace MapGenerator
             return isValid;
         }
 
-        public static bool CheckWestDoorValidity(Map map, int doorPosition, int wallPosition)
+        private static bool CheckWestDoorValidity(Map map, int doorPosition, int wallPosition)
         {
             bool isValid = false;
 
@@ -491,7 +491,7 @@ namespace MapGenerator
             return isValid;
         }
 
-        public static bool CheckNorthDoorValidity(Map map, int doorPosition, int wallPosition)
+        private static bool CheckNorthDoorValidity(Map map, int doorPosition, int wallPosition)
         {
             bool isValid = false;
 
@@ -507,7 +507,7 @@ namespace MapGenerator
             return isValid;
         }
 
-        public static void CreateExteriorDoor(Map map)
+        private static void CreateExteriorDoor(Map map)
         {
             double cardinalDirection = rng.NextDouble();
             bool doorCreated = false;
@@ -530,7 +530,7 @@ namespace MapGenerator
             }
         }
 
-        public static void CreateStairs(int floor, Map map)
+        private static void CreateStairs(int floor, Map map)
         {
             bool validLocation = false;
             int[] stairLocation = new int[2];

@@ -19,7 +19,7 @@ namespace MapGenerator
             DisplaySaves();
         }
 
-        public void DisplaySaves()
+        private void DisplaySaves()
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\");
             Directory.CreateDirectory(directoryString);
@@ -84,7 +84,7 @@ namespace MapGenerator
             }
         }
 
-        public void SaveInfo(string fileName)
+        private void SaveInfo(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
             Directory.CreateDirectory(directoryString);
@@ -100,7 +100,7 @@ namespace MapGenerator
             File.WriteAllText((directoryString + "\\info"), fileText);
         }
 
-        public void SaveAllMaps(string fileName)
+        private void SaveAllMaps(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
             SaveOneMap(directoryString + "\\map1", 1);
@@ -143,7 +143,7 @@ namespace MapGenerator
             File.WriteAllText(directoryString, fileText);
         }
 
-        public void SaveFog(string fileName)
+        private void SaveFog(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
 
