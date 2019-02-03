@@ -107,7 +107,7 @@ namespace MapGenerator
                 {
                     numberOfFloors = rng.Next(1, 4);
                 }
-                floorMaxLabel.Text += numberOfFloors;
+                floorMaxLabel.Text = "of " + numberOfFloors;
                 if (height == 1) //1 means it was left blank
                 {
                     height = rng.Next(10, 60);
@@ -360,21 +360,19 @@ namespace MapGenerator
             {
                 PrintMapWindow(Program.map1, Program.map1.GetLength(0), Program.map1.GetLength(1));
                 SetCellColor(Program.map1, currentDoor[0], currentDoor[1]);
-                floorMessage.Text = "Floor 1";
             }
             else if (floor == 2)
             {
                 PrintMapWindow(Program.map2, Program.map2.GetLength(0), Program.map2.GetLength(1));
                 SetCellColor(Program.map2, currentDoor[0], currentDoor[1]);
-                floorMessage.Text = "Floor 2";
             }
             else if (floor == 3)
             {
 
                 PrintMapWindow(Program.map3, Program.map3.GetLength(0), Program.map3.GetLength(1));
                 SetCellColor(Program.map3, currentDoor[0], currentDoor[1]);
-                floorMessage.Text = "Floor 3";
             }
+            floorMessage.Text = "Floor " + floor;
 
             if (fogOfWarOn == true && fogOfWarHarsh == false)
             {
@@ -576,249 +574,61 @@ namespace MapGenerator
 
             if (IsSpaceAccessible(mapToUpdate, currentDoor[0] - 1, currentDoor[1]))
             {
-                int[] currentSpace = new int[2];
-                currentSpace[0] = currentDoor[0] - 1;
-                currentSpace[1] = currentDoor[1];
+                int currentX = currentDoor[0] - 1;
+                int currentY = currentDoor[1];
                 bool verticalWallHit = false;
-                bool leftWallHit = false;
-                bool rightWallHit = false;
-                int leftAdjust = 0;
-                int rightAdjust = 0;
-
-                while (!leftWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1]);
-                    leftAdjust++;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1] - leftAdjust] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1] - leftAdjust] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1] - leftAdjust] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] - leftAdjust);
-                        leftWallHit = true;
-                    }
-                }
-
-                while (!rightWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] + rightAdjust);
-                    rightAdjust++;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1] + rightAdjust] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1] + rightAdjust] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1] + rightAdjust] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] + rightAdjust);
-                        rightWallHit = true;
-                    }
-                }
-
-                for (int x = 0; x <= leftAdjust; x++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] + 1, currentSpace[1] - x);
-                }
-
-                for (int y = 1; y <= rightAdjust; y++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] + 1, currentSpace[1] + y);
-                }
-
+                
+                int[] leftAndRightAdjust = RevealLeftAndRightAtY(mapToUpdate, currentX, currentY);
+                
                 while (!verticalWallHit)
                 {
-                    currentSpace[0]--;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'L')
-                    {
-                        verticalWallHit = true;
-                    }
-                    for (int x = 0; x <= leftAdjust; x++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] - x);
-                    }
-
-                    for (int y = 1; y <= rightAdjust; y++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] + y);
-                    }
+                    currentX--;
+                    verticalWallHit = RevealLayerByY(mapToUpdate, currentX, currentY, leftAndRightAdjust);
                 }
             }
 
             if (IsSpaceAccessible(mapToUpdate, currentDoor[0] + 1, currentDoor[1]))
             {
-                int[] currentSpace = new int[2];
-                currentSpace[0] = currentDoor[0] + 1;
-                currentSpace[1] = currentDoor[1];
+                int currentX = currentDoor[0] + 1;
+                int currentY = currentDoor[1];
                 bool verticalWallHit = false;
-                bool leftWallHit = false;
-                bool rightWallHit = false;
-                int leftAdjust = 0;
-                int rightAdjust = 0;
-
-                while (!leftWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] - leftAdjust);
-                    leftAdjust++;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1] - leftAdjust] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1] - leftAdjust] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1] - leftAdjust] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] - leftAdjust);
-                        leftWallHit = true;
-                    }
-                }
-
-                while (!rightWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] + rightAdjust);
-                    rightAdjust++;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1] + rightAdjust] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1] + rightAdjust] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1] + rightAdjust] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] + rightAdjust);
-                        rightWallHit = true;
-                    }
-                }
-
-                for (int x = 0; x <= leftAdjust; x++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] - 1, currentSpace[1] - x);
-                }
-
-                for (int y = 1; y <= rightAdjust; y++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] - 1, currentSpace[1] + y);
-                }
-
+                
+                int[] leftAndRightAdjust = RevealLeftAndRightAtY(mapToUpdate, currentX, currentY);
+                
                 while (!verticalWallHit)
                 {
-                    currentSpace[0]++;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'L')
-                    {
-                        verticalWallHit = true;
-                    }
-                    for (int x = 0; x <= leftAdjust; x++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] - x);
-                    }
-
-                    for (int y = 1; y <= rightAdjust; y++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0], currentSpace[1] + y);
-                    }
+                    currentX++;
+                    verticalWallHit = RevealLayerByY(mapToUpdate, currentX, currentY, leftAndRightAdjust);
                 }
             }
 
             if (IsSpaceAccessible(mapToUpdate, currentDoor[0], currentDoor[1] - 1))
             {
-                int[] currentSpace = new int[2];
-                currentSpace[0] = currentDoor[0];
-                currentSpace[1] = currentDoor[1] - 1;
+                int currentX = currentDoor[0];
+                int currentY = currentDoor[1] - 1;
                 bool verticalWallHit = false;
-                bool leftWallHit = false;
-                bool rightWallHit = false;
-                int leftAdjust = 0;
-                int rightAdjust = 0;
-
-                while (!leftWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] - leftAdjust, currentSpace[1]);
-                    leftAdjust++;
-                    if (mapToUpdate[currentSpace[0] - leftAdjust, currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0] - leftAdjust, currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0] - leftAdjust, currentSpace[1]] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] - leftAdjust, currentSpace[1]);
-                        leftWallHit = true;
-                    }
-                }
-
-                while (!rightWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] + rightAdjust, currentSpace[1]);
-                    rightAdjust++;
-                    if (mapToUpdate[currentSpace[0] + rightAdjust, currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0] + rightAdjust, currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0] + rightAdjust, currentSpace[1]] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] + rightAdjust, currentSpace[1]);
-                        rightWallHit = true;
-                    }
-                }
-
-                for (int x = 0; x <= leftAdjust; x++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] - x, currentSpace[1] + 1);
-                }
-
-                for (int y = 1; y <= rightAdjust; y++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] + y, currentSpace[1] + 1);
-                }
-
+                
+                int[] leftAndRightAdjust = RevealLeftAndRightAtX(mapToUpdate, currentX, currentY);
+                
                 while (!verticalWallHit)
                 {
-                    currentSpace[1]--;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'L')
-                    {
-                        verticalWallHit = true;
-                    }
-                    for (int x = 0; x <= leftAdjust; x++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] - x, currentSpace[1]);
-                    }
-
-                    for (int y = 1; y <= rightAdjust; y++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] + y, currentSpace[1]);
-                    }
+                    currentY--;
+                    verticalWallHit = RevealLayerByX(mapToUpdate, currentX, currentY, leftAndRightAdjust);
                 }
             }
 
             if (IsSpaceAccessible(mapToUpdate, currentDoor[0], currentDoor[1] + 1))
             {
-                int[] currentSpace = new int[2];
-                currentSpace[0] = currentDoor[0];
-                currentSpace[1] = currentDoor[1] + 1;
+                int currentX = currentDoor[0];
+                int currentY = currentDoor[1] + 1;
                 bool verticalWallHit = false;
-                bool leftWallHit = false;
-                bool rightWallHit = false;
-                int leftAdjust = 0;
-                int rightAdjust = 0;
-
-                while (!leftWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] - leftAdjust, currentSpace[1]);
-                    leftAdjust++;
-                    if (mapToUpdate[currentSpace[0] - leftAdjust, currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0] - leftAdjust, currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0] - leftAdjust, currentSpace[1]] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] - leftAdjust, currentSpace[1]);
-                        leftWallHit = true;
-                    }
-                }
-
-                while (!rightWallHit)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] + rightAdjust, currentSpace[1]);
-                    rightAdjust++;
-                    if (mapToUpdate[currentSpace[0] + rightAdjust, currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0] + rightAdjust, currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0] + rightAdjust, currentSpace[1]] != 'L')
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] + rightAdjust, currentSpace[1]);
-                        rightWallHit = true;
-                    }
-                }
-
-                for (int x = 0; x <= leftAdjust; x++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] - x, currentSpace[1] - 1);
-                }
-
-                for (int y = 1; y <= rightAdjust; y++)
-                {
-                    SetCellColor(mapToUpdate, currentSpace[0] + y, currentSpace[1] - 1);
-                }
-
+                
+                int[] leftAndRightAdjust = RevealLeftAndRightAtX(mapToUpdate, currentX, currentY);
+                
                 while (!verticalWallHit)
                 {
-                    currentSpace[1]++;
-                    if (mapToUpdate[currentSpace[0], currentSpace[1]] != ' ' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'H' && mapToUpdate[currentSpace[0], currentSpace[1]] != 'L')
-                    {
-                        verticalWallHit = true;
-                    }
-                    for (int x = 0; x <= leftAdjust; x++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] - x, currentSpace[1]);
-                    }
-
-                    for (int y = 1; y <= rightAdjust; y++)
-                    {
-                        SetCellColor(mapToUpdate, currentSpace[0] + y, currentSpace[1]);
-                    }
+                    currentY++;
+                    verticalWallHit = RevealLayerByX(mapToUpdate, currentX, currentY, leftAndRightAdjust);
                 }
             }
 
@@ -832,6 +642,140 @@ namespace MapGenerator
                 return false;
             }
             if (mapToUpdate[x, y] == ' ' || mapToUpdate[x, y] == 'H' || mapToUpdate[x, y] == 'L')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private int[] RevealLeftAndRightAtY(char[,] mapToUpdate, int currentX, int currentY)
+        {
+            bool leftWallHit = false;
+            bool rightWallHit = false;
+            int leftAdjust = 0;
+            int rightAdjust = 0;
+
+            while (!leftWallHit)
+            {
+                SetCellColor(mapToUpdate, currentX, currentY);
+                leftAdjust++;
+                if (mapToUpdate[currentX, currentY - leftAdjust] != ' ' && mapToUpdate[currentX, currentY - leftAdjust] != 'H' && mapToUpdate[currentX, currentY - leftAdjust] != 'L')
+                {
+                    SetCellColor(mapToUpdate, currentX, currentY - leftAdjust);
+                    leftWallHit = true;
+                }
+            }
+
+            while (!rightWallHit)
+            {
+                SetCellColor(mapToUpdate, currentX, currentY + rightAdjust);
+                rightAdjust++;
+                if (mapToUpdate[currentX, currentY + rightAdjust] != ' ' && mapToUpdate[currentX, currentY + rightAdjust] != 'H' && mapToUpdate[currentX, currentY + rightAdjust] != 'L')
+                {
+                    SetCellColor(mapToUpdate, currentX, currentY + rightAdjust);
+                    rightWallHit = true;
+                }
+            }
+
+            for (int i = 0; i <= leftAdjust; i++)
+            {
+                SetCellColor(mapToUpdate, currentDoor[0], currentY - i);
+            }
+
+            for (int j = 1; j <= rightAdjust; j++)
+            {
+                SetCellColor(mapToUpdate, currentDoor[0], currentY + j);
+            }
+
+            return new int[] { leftAdjust, rightAdjust };
+        }
+
+        private int[] RevealLeftAndRightAtX(char[,] mapToUpdate, int currentX, int currentY)
+        {
+            bool leftWallHit = false;
+            bool rightWallHit = false;
+            int leftAdjust = 0;
+            int rightAdjust = 0;
+
+            while (!leftWallHit)
+            {
+                SetCellColor(mapToUpdate, currentX, currentY);
+                leftAdjust++;
+                if (mapToUpdate[currentX - leftAdjust, currentY] != ' ' && mapToUpdate[currentX - leftAdjust, currentY] != 'H' && mapToUpdate[currentX - leftAdjust, currentY] != 'L')
+                {
+                    SetCellColor(mapToUpdate, currentX - leftAdjust, currentY);
+                    leftWallHit = true;
+                }
+            }
+
+            while (!rightWallHit)
+            {
+                SetCellColor(mapToUpdate, currentX + rightAdjust, currentY);
+                rightAdjust++;
+                if (mapToUpdate[currentX + rightAdjust, currentY] != ' ' && mapToUpdate[currentX + rightAdjust, currentY] != 'H' && mapToUpdate[currentX + rightAdjust, currentY] != 'L')
+                {
+                    SetCellColor(mapToUpdate, currentX + rightAdjust, currentY);
+                    rightWallHit = true;
+                }
+            }
+
+            for (int i = 0; i <= leftAdjust; i++)
+            {
+                SetCellColor(mapToUpdate, currentX - i, currentDoor[1]);
+            }
+
+            for (int j = 1; j <= rightAdjust; j++)
+            {
+                SetCellColor(mapToUpdate, currentX + j, currentDoor[1]);
+            }
+
+            return new int[] { leftAdjust, rightAdjust };
+        }
+
+        private bool RevealLayerByY(char[,] mapToUpdate, int currentX, int currentY, int[]leftAndRightAdjust)
+        {
+            int leftAdjust = leftAndRightAdjust[0];
+            int rightAdjust = leftAndRightAdjust[1];
+
+            for (int i = 0; i <= leftAdjust; i++)
+            {
+                SetCellColor(mapToUpdate, currentX, currentY - i);
+            }
+
+            for (int j = 1; j <= rightAdjust; j++)
+            {
+                SetCellColor(mapToUpdate, currentX, currentY + j);
+            }
+
+            if (mapToUpdate[currentX, currentY] != ' ' && mapToUpdate[currentX, currentY] != 'H' && mapToUpdate[currentX, currentY] != 'L')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool RevealLayerByX(char[,] mapToUpdate, int currentX, int currentY, int[] leftAndRightAdjust)
+        {
+            int leftAdjust = leftAndRightAdjust[0];
+            int rightAdjust = leftAndRightAdjust[1];
+
+            for (int i = 0; i <= leftAdjust; i++)
+            {
+                SetCellColor(mapToUpdate, currentX - i, currentY);
+            }
+
+            for (int j = 1; j <= rightAdjust; j++)
+            {
+                SetCellColor(mapToUpdate, currentX + j, currentY);
+            }
+
+            if (mapToUpdate[currentX, currentY] != ' ' && mapToUpdate[currentX, currentY] != 'H' && mapToUpdate[currentX, currentY] != 'L')
             {
                 return true;
             }
@@ -859,38 +803,14 @@ namespace MapGenerator
                 {
                     SwitchMap(currentFloor);
                 }
+
+                floorMessage.Text = "Floor " + currentFloor;
+                floorMaxLabel.Text = "of " + numberOfFloors;
                 displayGrid.Visible = true;
-
-                if (currentFloor == 1)
-                {
-                    floorMessage.Text = "Floor 1";
-                }
-                else if (currentFloor == 2)
-                {
-                    floorMessage.Text = "Floor 2";
-                }
-                else
-                {
-                    floorMessage.Text = "Floor 3";
-                }
-
-                if (numberOfFloors == 1)
-                {
-                    floorMaxLabel.Text = "of 1";
-                }
-                else if (numberOfFloors == 2)
-                {
-                    floorMaxLabel.Text = "of 2";
-                }
-                else
-                {
-                    floorMaxLabel.Text = "of 3";
-                }
-
                 successfulLoad = false;
             }
         }
-
+        
         private void SaveButton_Click(object sender, EventArgs e)
         {
             SaveFogInternal();

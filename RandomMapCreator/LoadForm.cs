@@ -32,10 +32,7 @@ namespace MapGenerator
                     loadListBox.Items.Add(saveNames[x].Remove(0, directoryString.Length));
                 }
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         private void DeleteButtonClicekd(object sender, EventArgs e)
@@ -67,13 +64,12 @@ namespace MapGenerator
             try
             {
                 fileSelected = loadListBox.Text;
-            }catch
-            { }
+            }catch { }
 
             if (fileSelected != "")
             {
                 LoadInfo(fileSelected);
-                LoadMaps(fileSelected);
+                LoadAllMaps(fileSelected);
 
                 if (DisplayForm.fogOfWarOn && !DisplayForm.fogOfWarHarsh)
                 {
@@ -90,9 +86,7 @@ namespace MapGenerator
         public void LoadInfo(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
-            string fileText = File.ReadAllText(directoryString + "\\info");
-
-            string[] fileTextItems = fileText.Split(',');
+            string[] fileTextItems = File.ReadAllText(directoryString + "\\info").Split(',');
 
             DisplayForm.fogOfWarOn = bool.Parse(fileTextItems[0]);
             DisplayForm.fogOfWarHarsh = bool.Parse(fileTextItems[1]);
@@ -102,52 +96,51 @@ namespace MapGenerator
             DisplayForm.currentDoor[1] = int.Parse(fileTextItems[5]);
         }
 
-        public void LoadMaps(string fileName)
+        public void LoadAllMaps(string fileName)
         {
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
-            
-            string[] fileLines = File.ReadLines(directoryString + "\\map1").ToArray();
-            char[] lineItems = fileLines[0].ToCharArray();
-            Program.map1 = new char[fileLines.Length, lineItems.Length];
 
-            for(int x = 0; x < fileLines.Length; x++)
-            {
-                lineItems = fileLines[x].ToCharArray();
-                for(int y = 0; y < lineItems.Length; y++)
-                {
-                    Program.map1[x, y] = lineItems[y];
-                }
-            }
+            LoadOneMap(directoryString + "\\map1", 1);
 
             if (File.Exists(directoryString + "\\map2"))
             {
-                fileLines = File.ReadLines(directoryString + "\\map2").ToArray();
-                lineItems = fileLines[0].ToCharArray();
-                Program.map2 = new char[fileLines.Length, lineItems.Length];
-
-                for (int x = 0; x < fileLines.Length; x++)
-                {
-                    lineItems = fileLines[x].ToCharArray();
-                    for (int y = 0; y < lineItems.Length; y++)
-                    {
-                        Program.map2[x, y] = lineItems[y];
-                    }
-                }
+                LoadOneMap(directoryString + "\\map2", 2);
             }
 
             if (File.Exists(directoryString + "\\map3"))
             {
-                fileLines = File.ReadLines(directoryString + "\\map3").ToArray();
-                lineItems = fileLines[0].ToCharArray();
-                Program.map3 = new char[fileLines.Length, lineItems.Length];
+                LoadOneMap(directoryString + "\\map3", 3);
+            }
+        }
 
-                for (int x = 0; x < fileLines.Length; x++)
+        private void LoadOneMap(string directoryString, int mapNumber)
+        {
+            string[] fileLines = File.ReadLines(directoryString).ToArray();
+            char[] lineItems = fileLines[0].ToCharArray();
+            char[,] map;
+
+            if (mapNumber == 1)
+            {
+                Program.map1 = new char[fileLines.Length, lineItems.Length];
+                map = Program.map1;
+            }
+            else if(mapNumber == 2)
+            {
+                Program.map2 = new char[fileLines.Length, lineItems.Length];
+                map = Program.map2;
+            }
+            else
+            {
+                Program.map3 = new char[fileLines.Length, lineItems.Length];
+                map = Program.map3;
+            }
+            
+            for (int x = 0; x < fileLines.Length; x++)
+            {
+                lineItems = fileLines[x].ToCharArray();
+                for (int y = 0; y < lineItems.Length; y++)
                 {
-                    lineItems = fileLines[x].ToCharArray();
-                    for (int y = 0; y < lineItems.Length; y++)
-                    {
-                        Program.map3[x, y] = lineItems[y];
-                    }
+                    map[x, y] = lineItems[y];
                 }
             }
         }
