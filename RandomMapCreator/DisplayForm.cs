@@ -93,8 +93,8 @@ namespace MapGenerator
 
         private void DoneButton_Click(object sender, EventArgs e)
         {
-            int width = GetWidthInput();
-            int height = GetHeightInput();
+            int width = GetSizeInput(widthInput);
+            int height = GetSizeInput(heightInput);
 
             if (height != 0 && width != 0) //0 means invalid input
             {
@@ -123,62 +123,33 @@ namespace MapGenerator
             }
         }
 
-        private int GetHeightInput()
+        private int GetSizeInput(TextBox sizeInput)
         {
-            int height = 1;
+            int size = 1;
 
-            if (heightInput.Text != "")
+            if (sizeInput.Text != "")
             {
                 try
                 {
-                    height = int.Parse(heightInput.Text);
-                    if (height < 10 || height > 60)
+                    size = int.Parse(sizeInput.Text);
+                }
+                catch
+                {
+                    size = 0;
+                }
+                finally
+                {
+                    if(size < 10 || size > 60)
                     {
-                        height = 0;
+                        size = 0;
                         workingLabel.Text = "Please input a whole number from 10 to 60 for height and width.";
                         workingLabel.ForeColor = Color.Red;
                         workingLabel.Visible = true;
                     }
                 }
-                catch
-                {
-                    height = 0;
-                    workingLabel.Text = "Please input a whole number from 10 to 60 for height and width.";
-                    workingLabel.ForeColor = Color.Red;
-                    workingLabel.Visible = true;
-                }
             }
 
-            return height;
-        }
-
-        private int GetWidthInput()
-        {
-            int width = 1;
-
-            if (widthInput.Text != "")
-            {
-                try
-                {
-                    width = int.Parse(widthInput.Text);
-                    if (width < 10 || width > 60)
-                    {
-                        width = 0;
-                        workingLabel.Text = "Please input a whole number from 10 to 60 for width and height.";
-                        workingLabel.ForeColor = Color.Red;
-                        workingLabel.Visible = true;
-                    }
-                }
-                catch
-                {
-                    width = 0;
-                    workingLabel.Text = "Please input a whole number from 10 to 60 for width and height.";
-                    workingLabel.ForeColor = Color.Red;
-                    workingLabel.Visible = true;
-                }
-            }
-
-            return width;
+            return size;
         }
 
         private void HideStartingUI()

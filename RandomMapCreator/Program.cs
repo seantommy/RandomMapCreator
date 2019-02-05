@@ -26,8 +26,6 @@ namespace MapGenerator
         public static void GenerateMap(int mapHeight, int mapWidth, DisplayForm Display, int floor)
         {
             bool mapComplete = false;
-            //char[,] map = new char[mapHeight, mapWidth];
-
             Map map = new Map(mapHeight, mapWidth);
 
             FillEmpty(map);
