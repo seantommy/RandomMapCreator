@@ -82,19 +82,19 @@ namespace MapGenerator
 
             if (floor == 1)
             {
-                PrintMapWindow(Program.map1);
-                SetCellColor(Program.map1, CurrentDoor[0], CurrentDoor[1]);
+                PrintMapWindow(MapGeneration.map1);
+                SetCellColor(MapGeneration.map1, CurrentDoor[0], CurrentDoor[1]);
             }
             else if (floor == 2)
             {
-                PrintMapWindow(Program.map2);
-                SetCellColor(Program.map2, CurrentDoor[0], CurrentDoor[1]);
+                PrintMapWindow(MapGeneration.map2);
+                SetCellColor(MapGeneration.map2, CurrentDoor[0], CurrentDoor[1]);
             }
             else if (floor == 3)
             {
 
-                PrintMapWindow(Program.map3);
-                SetCellColor(Program.map3, CurrentDoor[0], CurrentDoor[1]);
+                PrintMapWindow(MapGeneration.map3);
+                SetCellColor(MapGeneration.map3, CurrentDoor[0], CurrentDoor[1]);
             }
 
             FogOfWar.LoadFogInternal(this);
@@ -108,15 +108,15 @@ namespace MapGenerator
 
             if (CurrentFloor == 1)
             {
-                map = Program.map1;
+                map = MapGeneration.map1;
             }
             else if (CurrentFloor == 2)
             {
-                map = Program.map2;
+                map = MapGeneration.map2;
             }
             else
             {
-                map = Program.map3;
+                map = MapGeneration.map3;
             }
 
             for (int x = 0; x < map.Height; x++)
@@ -213,7 +213,7 @@ namespace MapGenerator
             previousDoor[0] = CurrentDoor[0];
             previousDoor[1] = CurrentDoor[1];
 
-            if (CurrentFloor != 1 || Program.map1.Contents[newDoorRow, newDoorColumn] != 'D')
+            if (CurrentFloor != 1 || MapGeneration.map1.Contents[newDoorRow, newDoorColumn] != 'D')
             {
                 SetCurrentDoor(newDoorRow, newDoorColumn);
                 if (displayGrid.Rows[previousDoor[0]].Cells[previousDoor[1]].Style.BackColor == Color.Red)

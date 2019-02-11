@@ -121,15 +121,15 @@ namespace MapGenerator
             Map map;
             if (mapNumber == 1)
             {
-                map = Program.map1;
+                map = MapGeneration.map1;
             }
             else if (mapNumber == 2)
             {
-                map = Program.map2;
+                map = MapGeneration.map2;
             }
             else
             {
-                map = Program.map3;
+                map = MapGeneration.map3;
             }
 
             for (int x = 0; x < map.Height; x++)
@@ -166,17 +166,17 @@ namespace MapGenerator
             string[,] fogArray;
             if (mapNumber == 1)
             {
-                map = Program.map1;
+                map = MapGeneration.map1;
                 fogArray = FogOfWar.floor1Fog;
             }
             else if (mapNumber == 2)
             {
-                map = Program.map2;
+                map = MapGeneration.map2;
                 fogArray = FogOfWar.floor2Fog;
             }
             else
             {
-                map = Program.map3;
+                map = MapGeneration.map3;
                 fogArray = FogOfWar.floor3Fog;
             }
 

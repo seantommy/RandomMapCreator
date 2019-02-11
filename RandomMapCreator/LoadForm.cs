@@ -122,18 +122,18 @@ namespace MapGenerator
 
             if (mapNumber == 1)
             {
-                Program.map1 = new Map(fileLines.Length, lineItems.Length);
-                map = Program.map1;
+                MapGeneration.map1 = new Map(fileLines.Length, lineItems.Length);
+                map = MapGeneration.map1;
             }
             else if (mapNumber == 2)
             {
-                Program.map2 = new Map(fileLines.Length, lineItems.Length);
-                map = Program.map2;
+                MapGeneration.map2 = new Map(fileLines.Length, lineItems.Length);
+                map = MapGeneration.map2;
             }
             else
             {
-                Program.map3 = new Map(fileLines.Length, lineItems.Length);
-                map = Program.map3;
+                MapGeneration.map3 = new Map(fileLines.Length, lineItems.Length);
+                map = MapGeneration.map3;
             }
 
             for (int x = 0; x < fileLines.Length; x++)

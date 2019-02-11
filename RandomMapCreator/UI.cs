@@ -29,15 +29,15 @@ namespace MapGenerator
 
             if (sizeSelected == "small")
             {
-                Program.roomSizeModifier = .3;
+                MapGeneration.roomSizeModifier = .3;
             }
             else if (sizeSelected == "average")
             {
-                Program.roomSizeModifier = .2;
+                MapGeneration.roomSizeModifier = .2;
             }
             else if (sizeSelected == "large")
             {
-                Program.roomSizeModifier = .1;
+                MapGeneration.roomSizeModifier = .1;
             }
         }
 
@@ -97,7 +97,7 @@ namespace MapGenerator
                 }
 
                 GenerateMaps(height, width);
-                displayMap.PrintMapWindow(Program.map1);
+                displayMap.PrintMapWindow(MapGeneration.map1);
                 ShowSecondaryUI();
             }
         }
@@ -151,15 +151,15 @@ namespace MapGenerator
 
         private void GenerateMaps(int height, int width)
         {
-            Program.GenerateMap(height, width, this, 1);
+            MapGeneration.GenerateMap(height, width, this, 1);
 
             if (displayMap.NumberOfFloors > 1)
             {
-                Program.GenerateMap(height, width, this, 2);
+                MapGeneration.GenerateMap(height, width, this, 2);
             }
             if (displayMap.NumberOfFloors > 2)
             {
-                Program.GenerateMap(height, width, this, 3);
+                MapGeneration.GenerateMap(height, width, this, 3);
             }
         }
 

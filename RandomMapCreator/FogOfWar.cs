@@ -46,9 +46,9 @@ namespace MapGenerator
 
             if (display.CurrentFloor == 1)
             {
-                for (int x = 0; x < Program.map1.Height; x++)
+                for (int x = 0; x < MapGeneration.map1.Height; x++)
                 {
-                    for (int y = 0; y < Program.map1.Width; y++)
+                    for (int y = 0; y < MapGeneration.map1.Width; y++)
                     {
                         floor1Fog[x, y] = display.displayGrid.Rows[x].Cells[y].Style.BackColor.ToString().Substring(7).TrimEnd(']');
                     }
@@ -56,9 +56,9 @@ namespace MapGenerator
             }
             else if (display.CurrentFloor == 2)
             {
-                for (int x = 0; x < Program.map2.Height; x++)
+                for (int x = 0; x < MapGeneration.map2.Height; x++)
                 {
-                    for (int y = 0; y < Program.map2.Width; y++)
+                    for (int y = 0; y < MapGeneration.map2.Width; y++)
                     {
                         floor2Fog[x, y] = display.displayGrid.Rows[x].Cells[y].Style.BackColor.ToString().Substring(7).TrimEnd(']');
                     }
@@ -66,9 +66,9 @@ namespace MapGenerator
             }
             else
             {
-                for (int x = 0; x < Program.map3.Height; x++)
+                for (int x = 0; x < MapGeneration.map3.Height; x++)
                 {
-                    for (int y = 0; y < Program.map3.Width; y++)
+                    for (int y = 0; y < MapGeneration.map3.Width; y++)
                     {
                         floor3Fog[x, y] = display.displayGrid.Rows[x].Cells[y].Style.BackColor.ToString().Substring(7).TrimEnd(']');
                     }
@@ -90,17 +90,17 @@ namespace MapGenerator
 
             if (display.CurrentFloor == 1)
             {
-                map = Program.map1;
+                map = MapGeneration.map1;
                 fog = floor1Fog;
             }
             else if (display.CurrentFloor == 2)
             {
-                map = Program.map2;
+                map = MapGeneration.map2;
                 fog = floor2Fog;
             }
             else
             {
-                map = Program.map3;
+                map = MapGeneration.map3;
                 fog = floor3Fog;
             }
 
@@ -154,15 +154,15 @@ namespace MapGenerator
 
             if (display.CurrentFloor == 1)
             {
-                mapToUpdate = Program.map1;
+                mapToUpdate = MapGeneration.map1;
             }
             else if (display.CurrentFloor == 2)
             {
-                mapToUpdate = Program.map2;
+                mapToUpdate = MapGeneration.map2;
             }
             else
             {
-                mapToUpdate = Program.map3;
+                mapToUpdate = MapGeneration.map3;
             }
 
             if (IsSpaceAccessible(mapToUpdate, display.CurrentDoor[0] - 1, display.CurrentDoor[1]))
