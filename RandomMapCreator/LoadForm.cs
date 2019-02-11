@@ -72,13 +72,13 @@ namespace MapGenerator
                 LoadInfo(fileSelected);
                 LoadAllMaps(fileSelected);
 
-                if (DisplayForm.fogOfWarOn && !DisplayForm.fogOfWarHarsh)
+                if (FogOfWar.fogOfWarOn && !FogOfWar.fogOfWarHarsh)
                 {
                     LoadAllFog(fileSelected);
                 }
 
                 Application.OpenForms["DisplayForm"].BringToFront();
-                DisplayForm.successfulLoad = true;
+                UI.successfulLoad = true;
                 this.Hide();
                 this.Dispose();
             }
@@ -89,12 +89,12 @@ namespace MapGenerator
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
             string[] fileTextItems = File.ReadAllText(directoryString + "\\info").Split(',');
 
-            DisplayForm.fogOfWarOn = bool.Parse(fileTextItems[0]);
-            DisplayForm.fogOfWarHarsh = bool.Parse(fileTextItems[1]);
-            DisplayForm.numberOfFloors = int.Parse(fileTextItems[2]);
-            DisplayForm.currentFloor = int.Parse(fileTextItems[3]);
-            DisplayForm.currentDoor[0] = int.Parse(fileTextItems[4]);
-            DisplayForm.currentDoor[1] = int.Parse(fileTextItems[5]);
+            FogOfWar.fogOfWarOn = bool.Parse(fileTextItems[0]);
+            FogOfWar.fogOfWarHarsh = bool.Parse(fileTextItems[1]);
+            UI.displayMap.NumberOfFloors = int.Parse(fileTextItems[2]);
+            UI.displayMap.CurrentFloor = int.Parse(fileTextItems[3]);
+            UI.displayMap.CurrentDoor[0] = int.Parse(fileTextItems[4]);
+            UI.displayMap.CurrentDoor[1] = int.Parse(fileTextItems[5]);
         }
 
         private void LoadAllMaps(string fileName)
@@ -204,15 +204,15 @@ namespace MapGenerator
         {
             if (mapNumber == 1)
             {
-                DisplayForm.floor1Fog[x, y] = fogValue;
+                FogOfWar.floor1Fog[x, y] = fogValue;
             }
             else if (mapNumber == 2)
             {
-                DisplayForm.floor2Fog[x, y] = fogValue;
+                FogOfWar.floor2Fog[x, y] = fogValue;
             }
             else
             {
-                DisplayForm.floor3Fog[x, y] = fogValue;
+                FogOfWar.floor3Fog[x, y] = fogValue;
             }
         }
     }

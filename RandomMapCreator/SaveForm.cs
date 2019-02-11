@@ -73,7 +73,7 @@ namespace MapGenerator
                 SaveInfo(nameTextbox.Text);
                 SaveAllMaps(nameTextbox.Text);
 
-                if (DisplayForm.fogOfWarOn && !DisplayForm.fogOfWarHarsh)
+                if (FogOfWar.fogOfWarOn && !FogOfWar.fogOfWarHarsh)
                 {
                     SaveFog(nameTextbox.Text);
                 }
@@ -90,12 +90,12 @@ namespace MapGenerator
             Directory.CreateDirectory(directoryString);
             string fileText = "";
 
-            fileText += DisplayForm.fogOfWarOn.ToString().Insert(DisplayForm.fogOfWarOn.ToString().Length, ",");
-            fileText += DisplayForm.fogOfWarHarsh.ToString().Insert(DisplayForm.fogOfWarHarsh.ToString().Length, ",");
-            fileText += DisplayForm.numberOfFloors.ToString().Insert(DisplayForm.numberOfFloors.ToString().Length, ",");
-            fileText += DisplayForm.currentFloor.ToString().Insert(DisplayForm.currentFloor.ToString().Length, ",");
-            fileText += DisplayForm.currentDoor[0].ToString().Insert(DisplayForm.currentDoor[0].ToString().Length, ",");
-            fileText += DisplayForm.currentDoor[1].ToString();
+            fileText += FogOfWar.fogOfWarOn.ToString().Insert(FogOfWar.fogOfWarOn.ToString().Length, ",");
+            fileText += FogOfWar.fogOfWarHarsh.ToString().Insert(FogOfWar.fogOfWarHarsh.ToString().Length, ",");
+            fileText += UI.displayMap.NumberOfFloors.ToString().Insert(UI.displayMap.NumberOfFloors.ToString().Length, ",");
+            fileText += UI.displayMap.CurrentFloor.ToString().Insert(UI.displayMap.CurrentFloor.ToString().Length, ",");
+            fileText += UI.displayMap.CurrentDoor[0].ToString().Insert(UI.displayMap.CurrentDoor[0].ToString().Length, ",");
+            fileText += UI.displayMap.CurrentDoor[1].ToString();
 
             File.WriteAllText((directoryString + "\\info"), fileText);
         }
@@ -105,11 +105,11 @@ namespace MapGenerator
             string directoryString = Directory.GetCurrentDirectory().Insert(Directory.GetCurrentDirectory().Length, "\\saves\\" + fileName);
             SaveOneMap(directoryString + "\\map1", 1);
 
-            if (DisplayForm.numberOfFloors > 1)
+            if (UI.displayMap.NumberOfFloors > 1)
             {
                 SaveOneMap(directoryString + "\\map2", 2);
             }
-            if (DisplayForm.numberOfFloors > 2)
+            if (UI.displayMap.NumberOfFloors > 2)
             {
                 SaveOneMap(directoryString + "\\map3", 3);
             }
@@ -149,11 +149,11 @@ namespace MapGenerator
 
             SaveOneFloorFog(directoryString + "\\floor1Fog", 1);
 
-            if (DisplayForm.numberOfFloors > 1 && DisplayForm.floor2Fog[0, 0] != null)
+            if (UI.displayMap.NumberOfFloors > 1 && FogOfWar.floor2Fog[0, 0] != null)
             {
                 SaveOneFloorFog(directoryString + "\\floor2Fog", 2);
             }
-            if (DisplayForm.numberOfFloors > 2 && DisplayForm.floor3Fog[0, 0] != null)
+            if (UI.displayMap.NumberOfFloors > 2 && FogOfWar.floor3Fog[0, 0] != null)
             {
                 SaveOneFloorFog(directoryString + "\\floor3Fog", 3);
             }
@@ -167,17 +167,17 @@ namespace MapGenerator
             if (mapNumber == 1)
             {
                 map = Program.map1;
-                fogArray = DisplayForm.floor1Fog;
+                fogArray = FogOfWar.floor1Fog;
             }
             else if (mapNumber == 2)
             {
                 map = Program.map2;
-                fogArray = DisplayForm.floor2Fog;
+                fogArray = FogOfWar.floor2Fog;
             }
             else
             {
                 map = Program.map3;
-                fogArray = DisplayForm.floor3Fog;
+                fogArray = FogOfWar.floor3Fog;
             }
 
             for (int x = 0; x < map.Height; x++)

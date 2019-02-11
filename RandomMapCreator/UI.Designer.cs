@@ -1,6 +1,6 @@
 ﻿namespace MapGenerator
 {
-    partial class DisplayForm
+    partial class UI
     {
         /// <summary>
         /// Required designer variable.

@@ -19,11 +19,11 @@ namespace MapGenerator
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            DisplayForm Display = new DisplayForm();
+            UI Display = new UI();
             Application.Run(Display);
         }
 
-        public static void GenerateMap(int mapHeight, int mapWidth, DisplayForm Display, int floor)
+        public static void GenerateMap(int mapHeight, int mapWidth, UI Display, int floor)
         {
             bool mapComplete = false;
             Map map = new Map(mapHeight, mapWidth);
